@@ -18,5 +18,14 @@ export default defineConfig({
       48: "/icon/48.png",
       128: "/icon/128.png",
     },
+    browser_specific_settings: {
+      gecko: {
+        id: "html.md@gir8.it",
+        data_collection_permissions: {
+          required: ["none"],
+        },
+        strict_min_version: "142.0",
+      },
+    } as any,
   },
 });
