@@ -14,3 +14,4 @@ bun run dev
 bun run build
 bun run build:firefox
 ```
+> Note that you can use `npm` instead of `bun`
