@@ -8,7 +8,6 @@ export default defineConfig({
     name: "HTML.MD",
     description: "Convert any web page to Markdown instantly",
     version: "1.0.0",
-    permissions: ["activeTab", "tabs"],
     action: {
       default_title: "Convert page to Markdown",
     },
