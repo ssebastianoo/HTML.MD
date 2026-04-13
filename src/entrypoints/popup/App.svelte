@@ -35,9 +35,14 @@
             throw new Error("No active tab found");
         }
 
-        const response = await browser.tabs.sendMessage(tab.id, {
-            type: "GET_PAGE_CONTENT",
+        const [injection] = await browser.scripting.executeScript({
+            target: { tabId: tab.id },
+            func: () => ({
+                html: document.body?.innerHTML ?? "",
+                title: document.title,
+            }),
         });
+        const response = injection?.result;
 
         if (response?.html) {
             const content = turndownService.turndown(response.html);
@@ -51,21 +56,19 @@
         loading = true;
         error = "";
 
-        let markdown: string;
         try {
-            markdown = await getMarkdown();
+            const markdown = await getMarkdown();
+            const formattedURL = url.replaceAll(
+                "{url}",
+                encodeURIComponent(markdown),
+            );
+            await browser.tabs.create({ url: formattedURL });
+            window.close();
         } catch (e) {
             error = `Error: ${e instanceof Error ? e.message : "Unknown error"}`;
-            return;
+        } finally {
+            loading = false;
         }
-
-        const formattedURL = url.replaceAll(
-            "{url}",
-            encodeURIComponent(markdown),
-        );
-        await browser.tabs.create({ url: formattedURL });
-        window.close();
-        loading = false;
     }
 
     async function copyToClipboard() {

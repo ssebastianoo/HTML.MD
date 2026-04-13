@@ -7,7 +7,8 @@ export default defineConfig({
   manifest: {
     name: "HTML.MD",
     description: "Convert any web page to Markdown instantly",
-    version: "1.0.0",
+    version: "1.0.1",
+    permissions: ["activeTab", "scripting"],
     action: {
       default_title: "Convert page to Markdown",
     },
